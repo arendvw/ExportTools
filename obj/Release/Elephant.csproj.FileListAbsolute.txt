@@ -1,0 +1,8 @@
+D:\DOCUMENTS\Visual Studio 2008\Projects\Elephant\Elephant\Elephant\bin\Release\Elephant.dll
+D:\DOCUMENTS\Visual Studio 2008\Projects\Elephant\Elephant\Elephant\bin\Release\Elephant.pdb
+D:\DOCUMENTS\Visual Studio 2008\Projects\Elephant\Elephant\Elephant\obj\Release\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Visual Studio 2008\Projects\Elephant\Elephant\Elephant\obj\Release\Elephant.dll
+D:\DOCUMENTS\Visual Studio 2008\Projects\Elephant\Elephant\Elephant\obj\Release\Elephant.pdb
+D:\DOCUMENTS\Visual Studio 2008\Projects\Elephant\Elephant\Elephant\obj\Release\ResGen.read.1.tlog
+D:\DOCUMENTS\Visual Studio 2008\Projects\Elephant\Elephant\Elephant\obj\Release\ResGen.write.1.tlog
+D:\DOCUMENTS\Visual Studio 2008\Projects\Elephant\Elephant\Elephant\obj\Release\Elephant.Icons.resources
