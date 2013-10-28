@@ -76,8 +76,6 @@ namespace Elephant.Components
             DateTime time = new DateTime(Time.Year, Time.Month, Time.Day, Time.Hour, Time.Minute, Time.Second, DateTimeKind.Utc);
             
             time = time.AddHours(-GMT);
-            Rhino.RhinoApp.WriteLine(time.ToString());
-            Rhino.RhinoApp.WriteLine(String.Format("{0} - {1}", Latitude, Longitude));
             double altitude, azimuth;
             this.CalculateSunPosition(time, Latitude, Longitude, out azimuth, out altitude);
 

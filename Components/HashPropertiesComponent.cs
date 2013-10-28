@@ -43,15 +43,17 @@ namespace Elephant.Components
         {
             List<HashType> input = new List<HashType>();
             DA.GetDataList("Hash", input);
+            int i = 0;
             foreach (IGH_Param Output in this.Params.Output)
             {
                 foreach (HashType item in input)
                 {
                     if (item.Key == Output.NickName)
                     {
-                        DA.SetData(Output.Name, item.Value.Value);
+                        DA.SetData(i, item.Value.Value);
                     }
                 }
+                i++;
             }
         }
 
