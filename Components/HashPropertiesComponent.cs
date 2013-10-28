@@ -49,7 +49,7 @@ namespace Elephant.Components
                 {
                     if (item.Key == Output.NickName)
                     {
-                        DA.SetData(Output.Name, item.Value);
+                        DA.SetData(Output.Name, item.Value.Value);
                     }
                 }
             }
