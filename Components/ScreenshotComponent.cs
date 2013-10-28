@@ -25,11 +25,11 @@ namespace Elephant.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.Register_StringParam("filename", "F", "The destination filename");
-            pManager.Register_IntegerParam("height", "H", "Height (pixels) of screenshot", 600);
-            pManager.Register_IntegerParam("width", "W", "Width (pixels) of screenshot", 800);
-            pManager.Register_StringParam("viewport", "VP", "Viewport to capture", "Perspective");
-            pManager.Register_BooleanParam("enabled", "E", "Enable the screenshot", false);
+            pManager.AddTextParameter("filename", "F", "The destination filename", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("height", "H", "Height (pixels) of screenshot", GH_ParamAccess.item, 600);
+            pManager.AddIntegerParameter("width", "W", "Width (pixels) of screenshot", GH_ParamAccess.item, 800);
+            pManager.AddTextParameter("viewport", "VP", "Viewport to capture", GH_ParamAccess.item, "Perspective");
+            pManager.AddBooleanParameter("enabled", "E", "Enable the screenshot", GH_ParamAccess.item, false);
         }
 
         /// <summary>

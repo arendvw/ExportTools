@@ -25,8 +25,8 @@ namespace Elephant
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.Register_GenericParam("Input", "I", "Input value", GH_ParamAccess.tree);
-            pManager.Register_BooleanParam("Enumerate", "E", "Enumerate lists to sequentally named items, or create a list of values", false, GH_ParamAccess.item);
+            pManager.AddGenericParameter("Input", "I", "Input value", GH_ParamAccess.tree);
+            pManager.AddBooleanParameter("Enumerate", "E", "Enumerate lists to sequentally named items, or create a list of values", GH_ParamAccess.item, false);
             this.Params.Input[0].ObjectChanged += resetMapping;
             this.Params.Input[0].AttributesChanged += resetMapping;
         }
@@ -70,7 +70,14 @@ namespace Elephant
                     {
                         foreach (object item in Data)
                         {
-                            DataList.Add(item);
+                            if (item != null)
+                            {
+                                DataList.Add(item);
+                            }
+                            else
+                            {
+                                DataList.Add("");
+                            }
                         }
                     }
                     //

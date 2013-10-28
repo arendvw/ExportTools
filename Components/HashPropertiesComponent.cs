@@ -25,7 +25,7 @@ namespace Elephant.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.RegisterParam(new HashParam(), "Hash", "H", "Hash", GH_ParamAccess.list);
+            pManager.AddParameter(new HashParam(), "Hash", "H", "Hash", GH_ParamAccess.list);
         }
 
         /// <summary>

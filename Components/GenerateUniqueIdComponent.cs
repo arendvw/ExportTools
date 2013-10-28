@@ -22,12 +22,12 @@ namespace Elephant
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.Register_GenericParam("Input", "I", "Input any serializable data", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Input", "I", "Input any serializable data", GH_ParamAccess.list);
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.Register_StringParam("Fingerprint", "F", "A sha1 hash of the set of data");
+            pManager.AddTextParameter("Fingerprint", "F", "A sha1 hash of the set of data", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)

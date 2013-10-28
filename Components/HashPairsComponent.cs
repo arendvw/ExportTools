@@ -23,12 +23,12 @@ namespace Elephant
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.Register_GenericParam("Label_1", "Input key/value", "Input any value here to create a key / value pair");
+            pManager.AddGenericParameter("Label_1", "Input key/value", "Input any value here to create a key / value pair", GH_ParamAccess.item);
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.Register_GenericParam("Hash", "H", "A key/value hash");
+            pManager.AddGenericParameter("Hash", "H", "A key/value hash", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)

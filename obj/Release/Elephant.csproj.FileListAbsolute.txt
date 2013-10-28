@@ -6,3 +6,23 @@ D:\DOCUMENTS\Visual Studio 2008\Projects\Elephant\Elephant\Elephant\obj\Release\
 D:\DOCUMENTS\Visual Studio 2008\Projects\Elephant\Elephant\Elephant\obj\Release\ResGen.read.1.tlog
 D:\DOCUMENTS\Visual Studio 2008\Projects\Elephant\Elephant\Elephant\obj\Release\ResGen.write.1.tlog
 D:\DOCUMENTS\Visual Studio 2008\Projects\Elephant\Elephant\Elephant\obj\Release\Elephant.Icons.resources
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\Elephant.dll
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\Elephant.pdb
+D:\DEVSPACE\Elephant\Elephant\Elephant\obj\Release\Elephant.csprojResolveAssemblyReference.cache
+D:\DEVSPACE\Elephant\Elephant\Elephant\obj\Release\Elephant.Icons.resources
+D:\DEVSPACE\Elephant\Elephant\Elephant\obj\Release\Elephant.csproj.GenerateResource.Cache
+D:\DEVSPACE\Elephant\Elephant\Elephant\obj\Release\Elephant.dll
+D:\DEVSPACE\Elephant\Elephant\Elephant\obj\Release\Elephant.pdb
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\GH_IO.dll
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\Grasshopper.dll
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\RhinoCommon.dll
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\GH_Util.dll
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\QWhale.Syntax.Parsers.dll
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\QWhale.Editor.dll
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\Mono.Cecil.dll
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\QWhale.Syntax.dll
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\QWhale.Common.dll
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\GH_IO.xml
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\Grasshopper.pdb
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\Grasshopper.xml
+D:\DEVSPACE\Elephant\Elephant\Elephant\bin\Release\RhinoCommon.xml

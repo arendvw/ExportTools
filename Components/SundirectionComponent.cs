@@ -23,15 +23,12 @@ namespace Elephant.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.Register_IntegerParam("GMT", "GMT", "Positive or negative offset for GMT timezone",1);
-            pManager.Register_IntegerParam("Hour", "H", "Hour of the day", 12);
-            pManager.Register_IntegerParam("Day", "D", "Day of the month", 1);
-            pManager.Register_IntegerParam("Month", "M", "Month of the year",6);
-            pManager.Register_IntegerParam("Year", "Y", "Month of the year", 2012);
-            pManager.Register_DoubleParam("Latitude", "Lat", "Latitudal coordinates for the position of inquery", 52.2066);
-            pManager.Register_DoubleParam("Longitude", "Long", "Longitudal coordinates for the position of inquery", 5.6422);
-            pManager.Register_VectorParam("North", "N", "The vector indicating the north direction", new Vector3d(1,0,0));
-            pManager.Register_VectorParam("Up", "U", "The vector pointing to the sky", new Vector3d(0,0,1));
+            pManager.AddIntegerParameter("GMT", "GMT", "Positive or negative offset for GMT timezone", GH_ParamAccess.item, 1);
+            pManager.AddTimeParameter("Time", "Time", "Date/Time for the sun position", GH_ParamAccess.item, new DateTime(2013, 6, 1, 12, 0, 0, 0));
+            pManager.AddNumberParameter("Latitude", "Lat", "Latitudal coordinates for the position of inquery", GH_ParamAccess.item, 52.2066);
+            pManager.AddNumberParameter("Longitude", "Long", "Longitudal coordinates for the position of inquery", GH_ParamAccess.item, 5.6422);
+            pManager.AddVectorParameter("North", "Nrth", "The vector indicating the north direction", GH_ParamAccess.item, new Vector3d(0, 1, 0));
+            pManager.AddVectorParameter("Up", "Up", "The vector pointing to the sky", GH_ParamAccess.item, new Vector3d(0, 0, 1));
         }
 
         /// <summary>
@@ -39,9 +36,9 @@ namespace Elephant.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.Register_DoubleParam("azimuth", "azi", "Azimuth of the sun");
-            pManager.Register_DoubleParam("altitude", "alt", "Altitude of the sun");
-            pManager.Register_VectorParam("direction", "V", "Vector indicating the direction of the sun");
+            pManager.AddNumberParameter("azimuth", "azi", "Azimuth of the sun", GH_ParamAccess.item);
+            pManager.AddNumberParameter("altitude", "alt", "Altitude of the sun", GH_ParamAccess.item);
+            pManager.AddVectorParameter("direction", "V", "Vector indicating the direction of the sun", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -50,30 +47,40 @@ namespace Elephant.Components
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            int GMT, Hour, Day, Month, Year;
-            GMT = Hour = Day = Month = Year = 0;
-            double Latitude, Longitude;
-            Latitude = Longitude = 0.0;
-            Vector3d North, Up;
-            North = Up = new Vector3d();
+            // Implementation in C# by Mikael Nillsson
+            // http://guideving.blogspot.nl/2010/08/sun-position-in-c.html
+            // Adaptation to Grasshopper By Arend van Waart <Arendvw@gmail.com>
+            // @see http://stackoverflow.com/questions/8708048/position-of-the-sun-given-time-of-day-latitude-and-longitude
+
+            Vector3d North = Vector3d.Unset;
+            Vector3d Up = Vector3d.Unset;
+            DateTime Time = DateTime.Now;
+            int GMT = 0;
+            double Latitude = 0;
+            double Longitude = 0;
 
             DA.GetData("GMT", ref GMT);
-            DA.GetData("Hour", ref Hour);
-            DA.GetData("Day", ref Day);
-            DA.GetData("Month", ref Month);
-            DA.GetData("Year", ref Year);
+            DA.GetData("Time", ref Time);
+            DA.GetData("Up", ref Up);
+            DA.GetData("North", ref North);
             DA.GetData("Latitude", ref Latitude);
             DA.GetData("Longitude", ref Longitude);
-            DA.GetData("North", ref North);
-            DA.GetData("Up", ref Up);
 
 
             North.Unitize();
             Up.Unitize();
 
-            DateTime time = new DateTime(Year, Month, Day, Hour, 0, 0, DateTimeKind.Utc);
+
+            //DateTime time = Time;
+            // assume the time is in UTC.
+            DateTime time = new DateTime(Time.Year, Time.Month, Time.Day, Time.Hour, Time.Minute, Time.Second, DateTimeKind.Utc);
+            
             time = time.AddHours(-GMT);
-            this.CalculateSunPosition(time, Latitude, Longitude);
+            Rhino.RhinoApp.WriteLine(time.ToString());
+            Rhino.RhinoApp.WriteLine(String.Format("{0} - {1}", Latitude, Longitude));
+            double altitude, azimuth;
+            this.CalculateSunPosition(time, Latitude, Longitude, out azimuth, out altitude);
+
             DA.SetData("azimuth", azimuth);
             DA.SetData("altitude", altitude);
 
@@ -81,19 +88,19 @@ namespace Elephant.Components
             Point3d p0 = new Point3d(0, 0, 0);
             Point3d p1 = new Point3d(1, 0, 0);
             p1.Transform(Transform.Translation(North));
-            p1.Transform(Transform.Rotation(this.azimuth, Up, p0));
+            p1.Transform(Transform.Rotation(azimuth, Up, p0));
 
             Plane azPlane = new Plane(p0, new Vector3d(p1), Up);
-            p1.Transform(Transform.Rotation(this.altitude, azPlane.ZAxis, p0));
+            p1.Transform(Transform.Rotation(altitude, azPlane.ZAxis, p0));
             Vector3d dir = new Vector3d(p1);
             dir.Unitize();
+
             DA.SetData("direction", dir);
+
         }
 
         private const double Deg2Rad = Math.PI / 180.0;
         private const double Rad2Deg = 180.0 / Math.PI;
-        private double altitude;
-        private double azimuth;
 
         /*!
          * \brief Calculates the sun light.
@@ -110,10 +117,10 @@ namespace Elephant.Components
          * \param longitude Longitude expressed in decimal degrees.
          */
         public void CalculateSunPosition(
-          DateTime dateTime, double latitude, double longitude)
+            DateTime dateTime, double latitude, double longitude, out double azimuth, out double altitude)
         {
             // Convert to UTC
-            dateTime = dateTime.ToUniversalTime();
+            //dateTime = dateTime.ToUniversalTime();
 
             // Number of days from J2000.0.
             double julianDate = 367 * dateTime.Year -
@@ -167,7 +174,7 @@ namespace Elephant.Components
                 hourAngle -= 2 * Math.PI;
             }
 
-            this.altitude = Math.Asin(Math.Sin(latitude * Deg2Rad) *
+            altitude = Math.Asin(Math.Sin(latitude * Deg2Rad) *
               Math.Sin(declination) + Math.Cos(latitude * Deg2Rad) *
               Math.Cos(declination) * Math.Cos(hourAngle));
 
@@ -178,15 +185,15 @@ namespace Elephant.Components
               Math.Tan(declination) * Math.Cos(latitude * Deg2Rad) -
               Math.Sin(latitude * Deg2Rad) * Math.Cos(hourAngle);
 
-            this.azimuth = Math.Atan(aziNom / aziDenom);
+            azimuth = Math.Atan(aziNom / aziDenom);
 
             if (aziDenom < 0) // In 2nd or 3rd quadrant
             {
-                this.azimuth += Math.PI;
+                azimuth += Math.PI;
             }
             else if (aziNom < 0) // In 4th quadrant
             {
-                this.azimuth += 2 * Math.PI;
+                azimuth += 2 * Math.PI;
             }
 
             // Altitude
@@ -217,7 +224,6 @@ namespace Elephant.Components
                 return angleInRadians;
             }
         }
-
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>

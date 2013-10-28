@@ -20,8 +20,8 @@ namespace Elephant
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.Register_StringParam("Key", "K", "Key", GH_ParamAccess.item);
-            pManager.Register_StringParam("Value", "V", "Value", (string) "", GH_ParamAccess.item);
+            pManager.AddTextParameter("Key", "K", "Key", GH_ParamAccess.item);
+            pManager.AddTextParameter("Value", "V", "Value", GH_ParamAccess.item, (string) "");
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
