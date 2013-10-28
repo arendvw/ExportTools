@@ -39,9 +39,12 @@
   <ItemGroup>
     <Reference Include="GH_IO">
       <HintPath>C:\GH\090061\GH_IO.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Grasshopper">
+    <Reference Include="Grasshopper, Version=1.0.0.20, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\GH\090061\Grasshopper.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />

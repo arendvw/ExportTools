@@ -32,6 +32,7 @@ namespace Elephant.Components
             pManager.AddTextParameter("Filename", "F", "The destination file of the hash", GH_ParamAccess.item);
             pManager.AddBooleanParameter("Append", "A", "Append to file", GH_ParamAccess.item, true);
             pManager.AddBooleanParameter("genId", "I", "Generate unique ID column", GH_ParamAccess.item, true);
+            pManager.AddTextParameter("Seperator", "S", "String to seperate columns", GH_ParamAccess.item, ";");
         }
 
         /// <summary>
@@ -52,6 +53,22 @@ namespace Elephant.Components
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             string outputfilename;
+            string delimiter = ";";
+            DA.GetData("Seperator", ref delimiter);
+            char[] seperators = delimiter.ToCharArray();
+            if (seperators.Length < 1)
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "The seperator has zero length, please enter at least one character");
+                return;
+            }
+
+
+            if (seperators.Length > 1)
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "More than one character given for the seperator, only the first character will be used");
+            }
+            this.seperator = seperators[0];
+
             StreamWriter OutputFile = null;
             try
             {
